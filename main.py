@@ -2,6 +2,7 @@ import pygame,sys
 from grid import Grid
 from tipoblocos import *
 from blocos import *
+from jogo import Game   
 
 pygame.init()
 dark_blue = (44, 44, 127)
@@ -12,9 +13,7 @@ pygame.display.set_caption("Pygame Tetris")
 
 clock = pygame.time.Clock()
 
-game_grid = Grid()
-
-Block = IBlock()
+game = Game()
 
 
 #DESCOMENTAR PARA VER AS GRADES SENDO PREENCHIDAS 
@@ -29,10 +28,22 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        if event.type ==   pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                sys.exit()
+            if event.key == pygame.K_LEFT:
+                game.current_block.move(0,-1)
+            if event.key == pygame.K_RIGHT:
+                game.current_block.move(0,1)
+            if event.key == pygame.K_DOWN:
+                game.current_block.move(1,0)
+            if event.key == pygame.K_UP:
+                game.current_block.rotation_state = (game.current_block.rotation_state + 1) % 4
+                
         #Desenhando
     screen.fill(dark_blue)
-    game_grid.draw(screen)
-    Block.draw(screen)
+    game.draw(screen)
 
     pygame.display.update()
     clock.tick(60)
