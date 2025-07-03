@@ -15,6 +15,9 @@ clock = pygame.time.Clock()
 
 game = Game()
 
+GAME_UPDATE = pygame.USEREVENT
+pygame.time.set_timer(GAME_UPDATE, 200 )  # Atualiza o jogo a cada 200ms
+
 
 #DESCOMENTAR PARA VER AS GRADES SENDO PREENCHIDAS 
 #game_grid.grid[0][0]=1
@@ -33,13 +36,16 @@ while True:
                 pygame.quit()
                 sys.exit()
             if event.key == pygame.K_LEFT:
-                game.current_block.move(0,-1)
+                game.move_left()
             if event.key == pygame.K_RIGHT:
-                game.current_block.move(0,1)
+                game.move_right()
             if event.key == pygame.K_DOWN:
-                game.current_block.move(1,0)
+                game.move_down()
             if event.key == pygame.K_UP:
                 game.current_block.rotation_state = (game.current_block.rotation_state + 1) % 4
+        if event.type == GAME_UPDATE:
+            game.move_down()
+            
                 
         #Desenhando
     screen.fill(dark_blue)
